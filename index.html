@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#11120f">
+  <meta name="description" content="내 기기에 있는 음악을 원하는 속도로 듣는 개인용 오디오 플레이어">
+  <title>느린결 — 나만의 음악 속도 플레이어</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="느린결 홈">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span>느린결</span>
+      </a>
+      <button class="install-button" id="installButton" type="button" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v3h14v-3"/></svg>
+        앱 설치
+      </button>
+    </header>
+
+    <section class="intro" aria-labelledby="pageTitle">
+      <p class="eyebrow"><span class="eyebrow-dot"></span> YOUR MUSIC, YOUR PACE</p>
+      <h1 id="pageTitle">음악의 속도를<br><em>내 호흡에 맞춰</em></h1>
+      <p class="intro-copy">좋아하는 음악을 원하는 템포로 들어보세요.<br class="desktop-break"> 파일은 기기에서만 재생돼요.</p>
+    </section>
+
+    <section class="player-card" aria-label="음악 플레이어">
+      <div class="card-topline"><span class="now-playing-label"><span class="live-dot"></span> NOW PLAYING</span><span class="local-label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.7 3 8.1 7 10 4-1.9 7-5.3 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg> 내 기기에서 재생</span></div>
+
+      <div class="track-info">
+        <div class="album-art" id="albumArt" aria-hidden="true">
+          <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
+          <div class="art-core"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13M9 18c0 1.1-1.3 2-3 2s-3-.9-3-2 1.3-2 3-2 3 .9 3 2Zm12-2c0 1.1-1.3 2-3 2s-3-.9-3-2 1.3-2 3-2 3 .9 3 2ZM9 9l12-2"/></svg></div>
+          <div class="art-spark spark-one"></div><div class="art-spark spark-two"></div><div class="art-spark spark-three"></div>
+        </div>
+        <div class="track-copy">
+          <p class="track-kicker" id="trackKicker">천천히, 더 깊이</p>
+          <h2 id="trackTitle">음악을 불러와 주세요</h2>
+          <p id="trackSubtitle">MP3, WAV 등 오디오 파일</p>
+        </div>
+        <button class="change-file" id="changeFileButton" type="button" aria-label="다른 음악 파일 선택" title="다른 파일 선택" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+      </div>
+
+      <div class="waveform-wrap" id="waveform" aria-label="재생 위치">
+        <div class="waveform-bars" id="waveformBars" aria-hidden="true"></div>
+      </div>
+      <div class="timeline"><span id="currentTime">0:00</span><span id="duration">0:00</span></div>
+      <input class="seek-slider" id="seekSlider" type="range" min="0" max="1000" value="0" aria-label="재생 위치 탐색" disabled>
+
+      <section class="loop-section" aria-label="구간 반복 설정">
+        <div class="loop-heading">
+          <span>구간 반복</span>
+          <button class="loop-toggle" id="loopToggle" type="button" aria-pressed="false" disabled>반복 꺼짐</button>
+        </div>
+        <div class="loop-controls">
+          <button class="loop-point" id="setLoopStartButton" type="button" disabled>
+            <span class="loop-point-label">시작점 설정</span><span class="loop-point-value" id="loopStartValue">A · --:--</span>
+          </button>
+          <button class="loop-point" id="setLoopEndButton" type="button" disabled>
+            <span class="loop-point-label">끝점 설정</span><span class="loop-point-value" id="loopEndValue">B · --:--</span>
+          </button>
+          <button class="loop-clear" id="clearLoopButton" type="button" disabled>초기화</button>
+        </div>
+        <p class="loop-status" id="loopStatus" aria-live="polite">음악을 불러온 뒤 반복할 구간의 시작점과 끝점을 지정하세요.</p>
+      </section>
+
+      <div class="transport">
+        <button class="transport-button" id="rewindButton" type="button" aria-label="10초 뒤로" disabled><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 2.6-6.4L3 8"/><path d="M3 3v5h5M12 8v8m-2-6 2-2 2 2"/></svg></button>
+        <button class="play-button" id="playButton" type="button" aria-label="재생" disabled>
+          <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg>
+          <svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5h3v14H8zM15 5h3v14h-3z"/></svg>
+        </button>
+        <button class="transport-button" id="forwardButton" type="button" aria-label="10초 앞으로" disabled><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.6-6.4L21 8"/><path d="M21 3v5h-5m-4 0v8m-2-6 2-2 2 2"/></svg></button>
+      </div>
+
+      <div class="speed-section">
+        <div class="speed-heading"><span>재생 속도</span><span class="pitch-note"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5"/></svg> 속도가 바뀌면 음정도 달라져요</span></div>
+        <div class="speed-presets" id="speedPresets" role="group" aria-label="재생 속도 선택">
+          <button type="button" data-speed="0.25">0.25×</button>
+          <button type="button" data-speed="0.5">0.5×</button>
+          <button type="button" data-speed="0.75">0.75×</button>
+          <button type="button" data-speed="1">1×</button>
+          <button type="button" data-speed="1.25">1.25×</button>
+          <button type="button" data-speed="1.5">1.5×</button>
+          <button type="button" data-speed="2">2×</button>
+        </div>
+        <label class="custom-speed" for="speedInput"><span>직접 입력</span><span class="speed-input-wrap"><input id="speedInput" type="number" min="0.25" max="3" step="0.05" value="1" inputmode="decimal" aria-label="직접 입력 재생 속도"><span>×</span></span></label>
+      </div>
+
+      <audio id="audio" preload="metadata"></audio>
+    </section>
+
+    <section class="upload-area" id="dropZone" aria-label="음악 파일 불러오기">
+      <input id="fileInput" type="file" accept="audio/*,.mp3,.wav,.m4a,.aac,.ogg,.flac" hidden>
+      <button class="upload-button" id="uploadButton" type="button"><span class="upload-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L8 8m4-4 4 4M5 14v5h14v-5"/></svg></span><span>음악 파일 선택</span><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+      <p>또는 이곳에 파일을 끌어다 놓으세요</p>
+    </section>
+
+    <footer class="footer-note"><span class="footer-lock"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></svg></span><span>음악 파일은 서버에 업로드되지 않고, 이 기기에서만 재생됩니다.</span></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

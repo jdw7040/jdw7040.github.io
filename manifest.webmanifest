@@ -1,0 +1,20 @@
+{
+  "name": "느린결 — 나만의 음악 속도 플레이어",
+  "short_name": "느린결",
+  "description": "내 기기에 있는 음악을 원하는 속도로 듣는 오디오 플레이어",
+  "lang": "ko-KR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#11120f",
+  "theme_color": "#11120f",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
